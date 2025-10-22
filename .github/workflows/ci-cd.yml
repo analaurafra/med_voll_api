@@ -6,6 +6,13 @@ on:
   pull_request:
     branches: [ main ]
 
+# ADICIONAR ESTAS PERMISSÕES GLOBAIS
+permissions:
+  contents: read
+  actions: read
+  checks: write          #  ESSENCIAL para test-reporter
+  pull-requests: write   #  ESSENCIAL para comentários em PR
+    
 env:
   JAVA_VERSION: '17'
   MAVEN_OPTS: -Xmx1024m
@@ -14,6 +21,13 @@ jobs:
   test:
     name: Run Tests
     runs-on: ubuntu-latest
+    
+ #  REPETIR PERMISSÕES NO JOB
+    permissions:
+      contents: read
+      actions: read
+      checks: write
+      pull-requests: write
     
     steps:
     - name: Checkout code
