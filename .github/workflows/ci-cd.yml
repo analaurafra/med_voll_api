@@ -125,6 +125,13 @@ jobs:
     
     - name: Build application
       run: mvn clean package -DskipTests
+
+     # AGORA COM PERMISSÕES CORRETAS
+    - name: Submit Dependency Snapshot
+      uses: advanced-security/maven-dependency-submission-action@v4
+      with:
+        settings-file: pom.xml
+      continue-on-error: true  # Não falha o pipeline se der erro
     
     - name: Build Docker image
       run: |
