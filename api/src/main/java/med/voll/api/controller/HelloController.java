@@ -12,6 +12,6 @@ public class HelloController {
 
     @GetMapping
     public String olaMundo(){
-        return "Hello World Spring !!!!!!";
+        return "Hello World Spring !!!!!! :)";
     }
 }
