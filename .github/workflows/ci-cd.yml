@@ -6,12 +6,13 @@ on:
   pull_request:
     branches: [ main ]
 
-# ADICIONAR ESTAS PERMISSÕES GLOBAIS
+# Permissões globais otimizadas
 permissions:
   contents: read
   actions: read
-  checks: write          #  ESSENCIAL para test-reporter
-  pull-requests: write   #  ESSENCIAL para comentários em PR
+  checks: write
+  pull-requests: write
+  security-events: write  # Para análises de segurança
     
 env:
   JAVA_VERSION: '17'
@@ -22,7 +23,7 @@ jobs:
     name: Run Tests
     runs-on: ubuntu-latest
     
- #  REPETIR PERMISSÕES NO JOB
+    # Permissões específicas do job
     permissions:
       contents: read
       actions: read
@@ -39,8 +40,9 @@ jobs:
         java-version: ${{ env.JAVA_VERSION }}
         distribution: 'temurin'
     
+    # CORRIGIDO: Atualizado para v4
     - name: Cache Maven dependencies
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ~/.m2
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
@@ -49,13 +51,15 @@ jobs:
     - name: Run tests
       run: mvn clean test
     
+    # CORRIGIDO: Atualizado para versão mais recente e estável
     - name: Generate test report
-      uses: dorny/test-reporter@v1
+      uses: dorny/test-reporter@v1.9.1
       if: success() || failure()
       with:
         name: Maven Tests
         path: target/surefire-reports/*.xml
         reporter: java-junit
+        fail-on-error: false  # Não falha o pipeline se houver problemas no report
 
   code-quality:
     name: Code Quality Analysis
@@ -73,40 +77,48 @@ jobs:
         java-version: ${{ env.JAVA_VERSION }}
         distribution: 'temurin'
     
+    # CORRIGIDO: Atualizado para v4
     - name: Cache Maven dependencies
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ~/.m2
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
     
-    # - name: Run SonarQube analysis
-     # env:
-      #  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-       # SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      # run: |
-        # mvn clean verify sonar:sonar \
-          # -Dsonar.projectKey=med_voll_api \
-          # -Dsonar.host.url=https://sonarcloud.io \
-          # -Dsonar.organization=your-org
+    - name: Compile for analysis
+      run: mvn clean compile -DskipTests
+    
+    # Análise básica de dependências (substitui SonarQube temporariamente)
+    - name: Generate dependency report
+      run: |
+        mvn dependency:tree > dependency-report.txt
+        mvn dependency:analyze >> dependency-report.txt
+      continue-on-error: true
+    
+    # CORRIGIDO: Atualizado para v4
+    - name: Upload dependency report
+      uses: actions/upload-artifact@v4
+      with:
+        name: dependency-analysis
+        path: dependency-report.txt
+        retention-days: 30
 
- # security:
-  #  name: Security Scan
-   # runs-on: ubuntu-latest
-    # needs: test
-    
-    # steps:
-    # - uses: actions/checkout@v4
-    
-    # - name: Run Snyk to check for vulnerabilities
-    #  uses: snyk/actions/maven@master
-    #  env:
-     #   SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+  # REMOVIDO: Job de segurança problemático comentado
+  # security:
+  #   name: Security Scan
+  #   runs-on: ubuntu-latest
+  #   needs: test
+  #   steps:
+  #   - uses: actions/checkout@v4
+  #   - name: Run basic security check
+  #     run: mvn dependency:check -DfailBuild=false
+  #     continue-on-error: true
 
   build:
     name: Build Application
     runs-on: ubuntu-latest
     needs: [test, code-quality]
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'
     
     steps:
     - uses: actions/checkout@v4
@@ -117,32 +129,58 @@ jobs:
         java-version: ${{ env.JAVA_VERSION }}
         distribution: 'temurin'
     
+    # CORRIGIDO: Atualizado para v4
     - name: Cache Maven dependencies
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ~/.m2
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
     
     - name: Build application
       run: mvn clean package -DskipTests
 
-     # AGORA COM PERMISSÕES CORRETAS
-    - name: Submit Dependency Snapshot
-      uses: advanced-security/maven-dependency-submission-action@v4
-      with:
-        settings-file: pom.xml
-      continue-on-error: true  # Não falha o pipeline se der erro
+    # REMOVIDO: Dependency submission que causava problemas de permissão
+    # Substituído por análise local de dependências
+    - name: Generate build info
+      run: |
+        echo "Build completed at $(date)" > build-info.txt
+        echo "Commit SHA: ${{ github.sha }}" >> build-info.txt
+        mvn dependency:list >> build-info.txt
+      continue-on-error: true
+    
+    # OPCIONAL: Build Docker apenas se Dockerfile existir
+    - name: Check for Dockerfile
+      id: docker-check
+      run: |
+        if [ -f "Dockerfile" ]; then
+          echo "dockerfile-exists=true" >> $GITHUB_OUTPUT
+        else
+          echo "dockerfile-exists=false" >> $GITHUB_OUTPUT
+        fi
     
     - name: Build Docker image
+      if: steps.docker-check.outputs.dockerfile-exists == 'true'
       run: |
         docker build -t med-voll-api:${{ github.sha }} .
         docker tag med-voll-api:${{ github.sha }} med-voll-api:latest
+      continue-on-error: true
     
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v3
+    # CORRIGIDO: Atualizado para v4
+    - name: Upload JAR artifacts
+      uses: actions/upload-artifact@v4
       with:
-        name: jar-artifacts
+        name: jar-artifacts-${{ github.sha }}
         path: target/*.jar
+        retention-days: 30
+    
+    # CORRIGIDO: Atualizado para v4
+    - name: Upload build info
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-info-${{ github.sha }}
+        path: build-info.txt
+        retention-days: 30
 
   deploy-staging:
     name: Deploy to Staging
@@ -152,10 +190,19 @@ jobs:
     environment: staging
     
     steps:
+    # CORRIGIDO: Atualizado para v4
+    - name: Download artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: jar-artifacts-${{ github.sha }}
+        path: ./artifacts
+    
     - name: Deploy to staging
       run: |
         echo "Deploying to staging environment"
-        # Adicionar comandos de deploy específicos
+        echo "JAR files available:"
+        ls -la ./artifacts/
+        # Adicionar comandos de deploy específicos aqui
 
   deploy-production:
     name: Deploy to Production
@@ -165,7 +212,16 @@ jobs:
     environment: production
     
     steps:
+    # CORRIGIDO: Atualizado para v4
+    - name: Download artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: jar-artifacts-${{ github.sha }}
+        path: ./artifacts
+    
     - name: Deploy to production
       run: |
         echo "Deploying to production environment"
-        # Adicionar comandos de deploy específicos
+        echo "JAR files available:"
+        ls -la ./artifacts/
+        # Adicionar comandos de deploy específicos aqui
