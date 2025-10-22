@@ -1,0 +1,164 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+# ADICIONAR ESTAS PERMISSÕES GLOBAIS
+permissions:
+  contents: read
+  actions: read
+  checks: write          #  ESSENCIAL para test-reporter
+  pull-requests: write   #  ESSENCIAL para comentários em PR
+    
+env:
+  JAVA_VERSION: '17'
+  MAVEN_OPTS: -Xmx1024m
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    
+ #  REPETIR PERMISSÕES NO JOB
+    permissions:
+      contents: read
+      actions: read
+      checks: write
+      pull-requests: write
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up JDK
+      uses: actions/setup-java@v4
+      with:
+        java-version: ${{ env.JAVA_VERSION }}
+        distribution: 'temurin'
+    
+    - name: Cache Maven dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
+    
+    - name: Run tests
+      run: mvn clean test
+    
+    - name: Generate test report
+      uses: dorny/test-reporter@v1
+      if: success() || failure()
+      with:
+        name: Maven Tests
+        path: target/surefire-reports/*.xml
+        reporter: java-junit
+
+  code-quality:
+    name: Code Quality Analysis
+    runs-on: ubuntu-latest
+    needs: test
+    
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Set up JDK
+      uses: actions/setup-java@v4
+      with:
+        java-version: ${{ env.JAVA_VERSION }}
+        distribution: 'temurin'
+    
+    - name: Cache Maven dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+    
+    # - name: Run SonarQube analysis
+     # env:
+      #  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+       # SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      # run: |
+        # mvn clean verify sonar:sonar \
+          # -Dsonar.projectKey=med_voll_api \
+          # -Dsonar.host.url=https://sonarcloud.io \
+          # -Dsonar.organization=your-org
+
+ # security:
+  #  name: Security Scan
+   # runs-on: ubuntu-latest
+    # needs: test
+    
+    # steps:
+    # - uses: actions/checkout@v4
+    
+    # - name: Run Snyk to check for vulnerabilities
+    #  uses: snyk/actions/maven@master
+    #  env:
+     #   SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+  build:
+    name: Build Application
+    runs-on: ubuntu-latest
+    needs: [test, code-quality]
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up JDK
+      uses: actions/setup-java@v4
+      with:
+        java-version: ${{ env.JAVA_VERSION }}
+        distribution: 'temurin'
+    
+    - name: Cache Maven dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+    
+    - name: Build application
+      run: mvn clean package -DskipTests
+    
+    - name: Build Docker image
+      run: |
+        docker build -t med-voll-api:${{ github.sha }} .
+        docker tag med-voll-api:${{ github.sha }} med-voll-api:latest
+    
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: jar-artifacts
+        path: target/*.jar
+
+  deploy-staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/develop'
+    environment: staging
+    
+    steps:
+    - name: Deploy to staging
+      run: |
+        echo "Deploying to staging environment"
+        # Adicionar comandos de deploy específicos
+
+  deploy-production:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    environment: production
+    
+    steps:
+    - name: Deploy to production
+      run: |
+        echo "Deploying to production environment"
+        # Adicionar comandos de deploy específicos
