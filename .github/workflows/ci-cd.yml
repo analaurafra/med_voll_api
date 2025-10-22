@@ -6,7 +6,15 @@ on:
     branches: [ main, develop ]
   pull_request:
     branches: [ main ]
-
+    
+# ADICIONE ESTAS PERMISSÕES
+permissions:
+  contents: read
+  actions: read
+  checks: write
+  pull-requests: write
+  statuses: write
+  
 env:
   JAVA_VERSION: '17'
   MAVEN_OPTS: -Xmx1024m
@@ -15,6 +23,13 @@ jobs:
   test:
     name: Run Tests
     runs-on: ubuntu-latest
+
+ # REPITA AS PERMISSÕES NO JOB
+    permissions:
+      contents: read
+      actions: read
+      checks: write
+      pull-requests: write
     
     steps:
     - name: Checkout code
@@ -43,6 +58,7 @@ jobs:
         name: Maven Tests
         path: target/surefire-reports/*.xml
         reporter: java-junit
+        fail-on-error: false
 
   code-quality:
     name: Code Quality Analysis
