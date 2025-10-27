@@ -39,8 +39,7 @@ Neste projeto iremos utilizar:
 - Spring Boot : 3.5.7 (Neste caso estamos utilizando esta versão)
 - Java : 17
 
-![Spring Boot](./src/main/resources/static/img/img_01.png)
-
+![Spring Boot](../med_voll_api/src/main/resources/static/img_01.png)
 
 ## Criando meu Repo no Github:
 
