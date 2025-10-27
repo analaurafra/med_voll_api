@@ -11,7 +11,7 @@ de profissionais da área da saúde, especificamente médicos.
 
 - Instalar o **Intellij ou a IDE da sua preferência que execute o Java**
 
-![Srping Boot](C:\Users\Usuario\Documents\Cursos\Java\projetos\med_voll_api\src\main\resources\static\img_01.png)
+![Spring Boot](./docs/images/spring-boot.png)
 
 - Instalar o **Java**
 - Instalar o **Maven**
