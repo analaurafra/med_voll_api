@@ -10,8 +10,7 @@ de profissionais da área da saúde, especificamente médicos.
 ## Pré-Requisitos
 
 - Instalar o **Intellij ou a IDE da sua preferência que execute o Java**
-
-![Spring Boot](./docs/images/spring-boot.png)
+![]()
 
 - Instalar o **Java**
 - Instalar o **Maven**
@@ -39,6 +38,9 @@ Neste projeto iremos utilizar:
 - Language : Java
 - Spring Boot : 3.5.7 (Neste caso estamos utilizando esta versão)
 - Java : 17
+
+![Spring Boot](./src/main/resources/static/img/img_01.png)
+
 
 ## Criando meu Repo no Github:
 
