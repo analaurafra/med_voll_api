@@ -51,10 +51,17 @@ as rotinas de CI e CI.
 Foi criado um projeto através das ferramentas de Github em formato de [Kanban Board](https://github.com/users/analaurafra/projects/1/views/1), onde as **Issues** são evoluídas, conforme evolução
 do projeto.
 
+O Mesmo também pode ser criado utilizando outras ferramentas como o Trello, Jira, entre outros.
+
+Neste caso foi sugerido um modelo do [Trello - Curso de Spring Boot](https://trello.com/b/O0lGCsKb/api-voll-med) para uso. Porém, optei por utilizar as **Issues do Github** para melhor integração com o repositório utilizando também o recurso do Girthub Projects para fins de centralização.
 
 ## Testando a API:
 
 Neste caso utilizaremos o **Insomnia**, mas temos como opção o **Postman**.
+
+## Design Frontend - Figma
+
+Para esta aplicação foi utilizado uma tela construída no Figma, onde foi possível realizar o design da interface do usuário. O mesmo pode ser acessado através do link: [Voll.med](https://www.figma.com/design/N4CgpJqsg7gjbKuDmra3EV/Voll.med?node-id=2-1007&p=f)
 
 
 
