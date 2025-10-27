@@ -10,7 +10,7 @@
 
 > Para verificar no Itellij và a: File -> Project Structure -> Project
 
-![Estrutura do Projeto](../med_voll_api/src/main/resources/static/img/alura_pdf_page-0001.png)
+![Estrutura do Projeto](src/main/resources/static/imagens/img_03.png)
 <br>
 <br>
 
