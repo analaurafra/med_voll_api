@@ -1,6 +1,4 @@
-
 ## **:mask: Med Center :iphone:**
-
 
 ### :bulb: **Sobre o **Med Center**:**
 
@@ -10,7 +8,6 @@ de profissionais da área da saúde, especificamente médicos.
 ## Pré-Requisitos
 
 - Instalar o **Intellij ou a IDE da sua preferência que execute o Java**
-![]()
 
 - Instalar o **Java**
 - Instalar o **Maven**
@@ -18,16 +15,18 @@ de profissionais da área da saúde, especificamente médicos.
 - Possuir uma conta no **Github**
 - Possuir o **Git Bash**
 
-> Lembrando que são comandos para Windows
-
-
 ## Especificações da Estrutura do Projeto
 
-- Java - Nesta ocasião estamos utilizando o Java 17
-- SDK - 21
-- Módules - SDK 21
-- Language Level - Java 21
-- Spring Boot 3
+- Java - Nesta ocasião estamos utilizando o Java `17`
+- SDK - `21`
+- Módules - SDK `21`
+- Language Level - Java `21`
+- Spring Boot `3`
+
+> Para verificar no Itellij và a: File -> Project Structure -> Project
+
+![Estrutura do Projeto](../med_voll_api/src/main/resources/static/img_03.png)
+
 
 ## Criando um Novo Projeto:
 
@@ -36,8 +35,9 @@ Neste projeto iremos utilizar:
 
 - Projetc : Maven
 - Language : Java
-- Spring Boot : 3.5.7 (Neste caso estamos utilizando esta versão)
-- Java : 17
+- Spring Boot : `3.5.7` (Neste caso estamos utilizando esta versão)
+- Java : `17`
+- Packagin
 
 ![Spring Boot](../med_voll_api/src/main/resources/static/img_01.png)
 
@@ -47,14 +47,17 @@ Neste projeto iremos utilizar:
 - Workflow: [co-cd - YML](https://github.com/analaurafra/med_voll_api/blob/main/.github/workflows/ci-cd.yml)
 
 **Nota**: Neste caso realizei a configuração de um arquivo yml para acompanhar na esteira a evolução do projeto.
-Inicialmente as sessões de testes unitários foram comentadas. Foi incluindo esse tipo de arquivo para abranger
-as rotinas de CI e CI.
+Inicialmente as sessões de testes unitários foram comentadas. 
+Foi incluindo esse tipo de arquivo para abranger as rotinas de CI e CI.
+
+
+![Workflow](../med_voll_api/src/main/resources/static/img_02.png)
+
 
 ## Criando meu Projeto no Github:
 
 Foi criado um projeto através das ferramentas de Github em formato de [Kanban Board](https://github.com/users/analaurafra/projects/1/views/1), onde as **Issues** são evoluídas, conforme evolução
 do projeto.
-
 
 ## Testando a API:
 
