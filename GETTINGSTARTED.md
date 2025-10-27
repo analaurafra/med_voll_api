@@ -25,7 +25,7 @@ Neste projeto iremos utilizar:
 - Java : `17`;
 - Package - `jar`.
 
-![Spring Boot](src/main/resources/static/img_05.png)
+![Spring Boot](./src/main/resources/static/img_05.png)
 <br>
 <br>
 
@@ -75,37 +75,36 @@ Para iniciarmos a utilização do Insomnia, baixe o software através do site: [
 Após a instalação, abra o software e crie um novo projeto, clicando em "Create" e selecionando "New Request".
 
 ![Insominia](./src/main/resources/static/img_06_01.png)
-
 <br>
 <br>
 
 ### Passo 02
 No menu lateral esquerdo identifique a opção `Colletions`, criei um nome para sua colletion, neste caso nomearemos como **Requisições**, pois será neste collection que testaremos o **CRUD** do nosso sistema.
 
-![Insomnia](src/main/resources/static/img_06_02.png)
+![Insomnia](./src/main/resources/static/img_06_02.png)
 <br>
 
-![Insomnia](src/main/resources/static/img_06_03.png)
+![Insomnia](./src/main/resources/static/img_06_03.png)
 <br>
 
-![Insomnia](src/main/resources/static/img_06_04.png)
+![Insomnia](./src/main/resources/static/img_06_04.png)
 <br>
 
-![Insomnia](src/main/resources/static/img_06_05.png)
+![Insomnia](./src/main/resources/static/img_06_05.png)
 <br>
 <br>
 Após nomear a Collection Requisição, selecione o método HTTP desejado **(GET, POST, PUT, DELETE, etc.)** e insira a URL da API que você deseja testar.
 
-![Insomnia](src/main/resources/static/img_06_06.png)
+![Insomnia](./src/main/resources/static/img_06_06.png)
 <br>
 
-![Insomnia](src/main/resources/static/img_06_07.png)
+![Insomnia](./src/main/resources/static/img_06_07.png)
 <br>
 <br>
 
 Iniciaremos com o **Método POST**, o qual irá **enviar** os dados para a API.
 
-![Insomnia](src/main/resources/static/img_06_08.png)
+![Insomnia](./src/main/resources/static/img_06_08.png)
 <br>
 <br>
 
@@ -136,6 +135,6 @@ Utilize o exemplo abaixo no prompt de corpo da requisição:
 Na imagem abaixo temos o exemplo do corpo da requisição preenchida e enviada, porém temos como resultado um erro, já previsível, pois estamos realizando uma requisição para o endereço
 [http://localhost:8080/medicos](http://localhost:8080/medicos), porém ainda não foi criado nenhum `controller` na nossa aplicação, que atenda a essa requisição.
 
-![Insomnia](src/main/resources/static/img_06_09.png)
+![Insomnia](./src/main/resources/static/img_06_09.png)
 <br>
 <br>
