@@ -138,3 +138,5 @@ Na imagem abaixo temos o exemplo do corpo da requisição preenchida e enviada, 
 ![Insomnia](./src/main/resources/static/img_06_09.png)
 <br>
 <br>
+
+:)
