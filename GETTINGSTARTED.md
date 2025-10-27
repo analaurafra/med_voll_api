@@ -10,8 +10,7 @@
 
 > Para verificar no Itellij và a: File -> Project Structure -> Project
 
-![teste](./src/main/resources/static/img_01.png)
-
+![Workflow](./src/main/resources/static/img_03.png)
 <br>
 <br>
 
@@ -26,7 +25,7 @@ Neste projeto iremos utilizar:
 - Java : `17`;
 - Package - `jar`.
 
-![Spring Boot](src/main/resources/static/img/imagens/img_01.png)
+![Spring Boot](src/main/resources/static/img_05.png)
 <br>
 <br>
 
@@ -39,7 +38,7 @@ Neste projeto iremos utilizar:
 Inicialmente as sessões de testes unitários foram comentadas.
 Foi incluindo esse tipo de arquivo para abranger as rotinas de CI e CI.
 
-![Workflow](src/main/resources/static/img/imagens/img_02.png)
+![Workflow](./src/main/resources/static/img_02.png)
 <br>
 <br>
 
@@ -48,7 +47,7 @@ Foi incluindo esse tipo de arquivo para abranger as rotinas de CI e CI.
 Foi criado um projeto através das ferramentas de Github Projetos em formato de [Kanban Board](https://github.com/users/analaurafra/projects/1/views/1), onde as **Issues** são evoluídas, conforme evolução
 do projeto.
 
-![Projetos](src/main/resources/static/img/imagens/img_05.png)
+![Projetos](./src/main/resources/static/img_05.png)
 <br>
 <br>
 
@@ -60,7 +59,7 @@ Após incluir um projeto novo ou obtê-lo através de um projeto já existente, 
 
 > O Maven também poderá ser instalado via Plugin em sua IDE, acesse as configurações de sua IDE e busque por: `Plugins -> Marketplace -> Maven`
 
-![Projetos](src/main/resources/static/img/imagens/img_04.png)
+![Projetos](./src/main/resources/static/img_04.png)
 <br>
 <br>
 
@@ -74,46 +73,44 @@ Para realizar essa configuração siga o passo a passo:
 Para iniciarmos a utilização do Insomnia, baixe o software através do site: [Insomnia](https://insomnia.rest/download)
 
 Após a instalação, abra o software e crie um novo projeto, clicando em "Create" e selecionando "New Request".
-![Insomnia](../med_voll_api/src/main/resources/static/img/img_06.png)
+
+![Insominia](./src/main/resources/static/img_06_01.png)
+
 <br>
 <br>
 
 ### Passo 02
 No menu lateral esquerdo identifique a opção `Colletions`, criei um nome para sua colletion, neste caso nomearemos como **Requisições**, pois será neste collection que testaremos o **CRUD** do nosso sistema.
 
-![Insomnia](src/main/resources/static/img/imagens/img_06_01.png)
+![Insomnia](src/main/resources/static/img_06_02.png)
 <br>
 
-![Insomnia](src/main/resources/static/img/imagens/img_06_02.png)
+![Insomnia](src/main/resources/static/img_06_03.png)
 <br>
 
-![Insomnia](src/main/resources/static/img/imagens/img_06_03.png)
+![Insomnia](src/main/resources/static/img_06_04.png)
 <br>
 
-![Insomnia](src/main/resources/static/img/imagens/img_06_04.png)
+![Insomnia](src/main/resources/static/img_06_05.png)
 <br>
 <br>
 Após nomear a Collection Requisição, selecione o método HTTP desejado **(GET, POST, PUT, DELETE, etc.)** e insira a URL da API que você deseja testar.
 
-![Insomnia](../med_voll_api/src/main/resources/static/img/img_0_05.png)
+![Insomnia](src/main/resources/static/img_06_06.png)
 <br>
 
-![Insomnia](src/main/resources/static/img/imagens/img_06_06.png)
+![Insomnia](src/main/resources/static/img_06_07.png)
 <br>
 <br>
 
 Iniciaremos com o **Método POST**, o qual irá **enviar** os dados para a API.
 
-![Insomnia](src/main/resources/static/img/imagens/img_06_07.png)
+![Insomnia](src/main/resources/static/img_06_08.png)
 <br>
 <br>
 
 Antes de enviar a requisição é necessário informar o corpo da requisição. Quais dados serão enviados para a API.
 Neste caso utilizaremos o formato **JSON**. 
-
-![Insomnia](src/main/resources/static/img/imagens/img_06_08.png)
-<br>
-<br>
 
 Utilize o exemplo abaixo no prompt de corpo da requisição:
 
@@ -139,6 +136,6 @@ Utilize o exemplo abaixo no prompt de corpo da requisição:
 Na imagem abaixo temos o exemplo do corpo da requisição preenchida e enviada, porém temos como resultado um erro, já previsível, pois estamos realizando uma requisição para o endereço
 [http://localhost:8080/medicos](http://localhost:8080/medicos), porém ainda não foi criado nenhum `controller` na nossa aplicação, que atenda a essa requisição.
 
-![Insomnia](..src/main/resources/static/img/img_06_09.png)
+![Insomnia](src/main/resources/static/img_06_09.png)
 <br>
 <br>
