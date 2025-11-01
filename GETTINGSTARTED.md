@@ -139,4 +139,72 @@ Na imagem abaixo temos o exemplo do corpo da requisição preenchida e enviada, 
 <br>
 <br>
 
-:)
+## Controller - Criando o Endpoint
+
+A classe `controller` é responsável por receber e mapear as requisições HTTP, processá-las e retornar as respostas apropriadas. Ela atua como uma ponte entre o cliente (por exemplo, um navegador web ou aplicativo móvel) e a lógica de negócios da aplicação.
+
+### Controler : MedicoController.java
+
+Para testar à requisições e identificar se os dados foram enviados corretamente, foi criado uma **Classe Controller** `MedicoController.java`.
+
+![Insomnia](./src/main/resources/static/img_06_12.png)
+<br>
+<br>
+
+Segue o código da classe criada para teste prévio
+
+```
+package med.voll.api.controller;
+
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("medicos") //irá chamar apenas o caminho /medicos
+
+public class MedicoController {
+
+    //Criando metodo cadastro e postmapping para atender à solicitação POST
+
+    @PostMapping
+    public void cadastrar(String json) {
+        System.out.println(json);
+    }
+}
+
+```
+
+A seguir vá até ao Insomnia e envie novamente a **requisição POST** para o endpoint [http://localhost:8080/medicos](http://localhost:8080/medicos).
+
+![Insomnia](./src/main/resources/static/img_06_10.png)
+
+<br>
+<br>    
+
+Para verificar se houve alguma resposta, verifique o console do Spring Boot, onde você verá os dados enviados sendo impressos.
+![Insomnia](./src/main/resources/static/img_06_11.png)
+<br>
+<br>
+
+Para garantir que a nossa requiição está sendo enviada corretamente, é necessário incluir `@RequestBody` no parâmetro do método `cadastrar`, para que o Spring Boot saiba que deve mapear o corpo da requisição para o parâmetro do método.
+
+```
+    @PostMapping
+    public void cadastrar(@RequestBody String json) {
+        System.out.println(json);
+    }
+```
+
+Execute novamente a aplicação e envie a requisição pelo Insomnia e a seguir verifique no prompt do Spring Boot se os dados foram impressos corretamente:
+
+![Insomnia](./src/main/resources/static/img_06_13.png)
+<br>
+<br>    
+
+
+
+
+ 
+
+
