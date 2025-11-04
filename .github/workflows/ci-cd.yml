@@ -230,7 +230,7 @@ services:
   mysql:
     image: mysql:8.0
     env:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: Bing@321!!
       MYSQL_DATABASE: med_voll_api
     ports:
       - 3306:3306
